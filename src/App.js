@@ -15,7 +15,7 @@ query GetBooks
 `;
 
 const get_author = gql `
-query GetAuthor {
+query GetAuthorByBook {
   authors {
           name      
           book
@@ -50,6 +50,7 @@ export default function App() {
       <button className='btn btn-info3' onClick={DisplayBooks}>Return books based on a binding / year </button>
       
       <DisplayBooks/>
+      <shortNames/>
     </div>
         )
 }
@@ -79,40 +80,46 @@ function DisplayBooks() {
   if (loading) return <p> Loading... </p>;
   if (error) return <p> Error : ${error.message} </p>;
 
-  return ( data.book.title
+  return (
+  <select name='book_dropdown'>
+    {data.books.map ((book) => {
+        book.author.map((author) => author.name);
+                                }
+                    )
+    }
+  
+  </select>
+         );
+                        }
 
 
-
-
-
-/*     <select name='book_dropdown'>
-    {data.books.map ((book) => (
+/* <select>
+{data.books.map ((book) => (
 
       <option key={book.title} value={book.author.name}>
 
         {book.title}
-        {book.author.name}
-
+        
       </option>
 
     ))
-    }
+    } 
 
-  </select> */
+  </select> 
+  
+  
 
-  );
-    }
-
-
-/* function GetAuthor(title) {
+ function GetAuthor(title) {
   const { loading, error, data } = useQuery(get_author, {variables: { data }})
 
   if (error) return <p> 'Error! ${error}' </p>;
   if (loading) return <p> loading..</p>;
   
   return <h1> hello {data.author} </h1>
-}
+
  */
+
+
 
 
 
@@ -126,5 +133,3 @@ function DisplayBooks() {
       </form>
     );
   }
-
-
