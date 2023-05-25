@@ -1,10 +1,11 @@
+import { useState } from 'react';
 import './App.css';
 import { useQuery, gql } from '@apollo/client'; 
 
 const get_books = gql`
 query GetBooks
 {
-  books
+  allbooks
   {
     title
     author {
@@ -37,20 +38,26 @@ query GetBooksAndAuthors {
 `;
 
 export default function App() {
+  const [activeComponent, setActiveComponent] = useState("allBooks");
   return (
     <div className="App header">
       <h2>Simple React frontend app 🚀</h2>
       <br/>
-      <button className='btn btn-info' onClick> Query GraphQL to get all books </button>
+      <button className='btn btn-info' onClick={() => {
+        setActiveComponent("allBooks");
+      }}> Query GraphQL to get all books </button>
 {/* {GetBooksAndAuthors} */}
       <br/>
-      <button className='btn btn-info2' onClick> Get the author of the book </button>
+      <button className='btn btn-info2' onClick={() => {
+        setActiveComponent("authorOfBook");
+      }} > Get the author of the book </button>
 {/* {GetAuthor} */}
       <br/>
-      <button className='btn btn-info3' onClick={DisplayBooks}>Return books based on a binding / year </button>
+      <button className='btn btn-info3' onClick={() => {
+        setActiveComponent("binding");
+      }} >Return books based on a binding / year </button>
       
-      <DisplayBooks/>
-      <shortNames/>
+      { activeComponent === "allBooks" && <DisplayBooks/> }      
     </div>
         )
 }
@@ -81,16 +88,11 @@ function DisplayBooks() {
   if (error) return <p> Error : ${error.message} </p>;
 
   return (
-  <select name='book_dropdown'>
-    {data.books.map ((book) => {
-        book.author.map((author) => author.name);
-                                }
-                    )
-    }
-  
-  </select>
-         );
-                        }
+    <div>
+      {data.allbooks.map((book) => <div key={book.title}><span>{book.title}</span> - <span>{book.author.name}</span></div>)}
+    </div>
+  );
+}
 
 
 /* <select>
@@ -123,13 +125,13 @@ function DisplayBooks() {
 
 
 
-  function SearchBar({ filterText }) {
-    return (
-      <form>
-        <input 
-          type="text" 
-          value={filterText} 
-          placeholder="Search..."/>
-      </form>
-    );
-  }
+function SearchBar({ filterText }) {
+  return (
+    <form>
+      <input
+        type="text"
+        value={filterText}
+        placeholder="Search..." />
+    </form>
+  );
+}
