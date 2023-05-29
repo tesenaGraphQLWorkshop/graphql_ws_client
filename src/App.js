@@ -55,6 +55,8 @@ export default function App() {
   return (
     <div className="App header">
       <h2>Simple React frontend app 🚀</h2>
+      <img src={require('./prague-library-book-tower-stuart-litoff.jpg')} alt="Prague library tower"></img>
+      <br/>
       <br/>
       <button className='btn btn-info' onClick={() => {
         setActiveComponent("allBooks");
