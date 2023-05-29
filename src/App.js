@@ -25,6 +25,19 @@ query GetAuthorByBook {
 
 `;
 
+//const get_book_by_author = gql `
+//query GetBookByAuthor   ($AuthorName: NAME!){
+  //authors( inputName:$AuthorName {
+   // name
+   // books
+   //       }
+  
+//}
+//`;
+//function nameFromUser({inputName}){
+//const{loading, error, data} = useQuery(get_book_by_author,{variables:{AuthorName: inputName}})
+//}
+
 const get_all = gql `
 query GetBooksAndAuthors {
   books {
